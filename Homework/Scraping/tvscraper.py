@@ -6,7 +6,7 @@ This script scrapes IMDB and outputs a CSV file with highest rated tv series.
 '''
 import csv
 
-from pattern.web import URL, DOM, plaintext
+from pattern.web import URL, DOM
 
 TARGET_URL = "http://www.imdb.com/search/title?num_votes=5000,&sort=user_rating,desc&start=1&title_type=tv_series"
 BACKUP_HTML = 'tvseries.html'
@@ -25,25 +25,30 @@ def extract_tvseries(dom):
     - Runtime (only a number!)
     '''
 
-    for e in dom.by_tag("div.lister-item-content")[:5]: # Top 5 reddit entries.
+    for e in dom.by_tag("div.lister-item-content")[:10]:
 
         for a in e.by_tag("h3.lister-item-header"):
-            for series in a.by_tag("a"):
-                series = plaintext(series.content)
+            for serie in a.by_tag("a"):
+                serie = serie.content
 
         for a in e.by_tag("p.text-muted"):
             for runtime in a.by_tag("span.runtime"):
-                runtime = plaintext(runtime.content)
+                runtime = runtime.content[:-4]
 
             for genre in a.by_tag("span.genre"):
-                genre = plaintext(genre.content)
+                genre = genre.content
 
         for a in e.by_tag("div.ratings-bar"):
             for i in a.by_tag("div.inline-block ratings-imdb-rating"):
-                for rating in i.by_attr(data-value):
-                    rating = rating.content
+                rating = i.attributes["data-value"]
 
-        print series
+        for a in e.by_tag("p"):
+            if ("?ref_=adv_li_st" in a.content):
+                for actor in a.by_tag("a"):
+                    actor = actor.content
+                    print actor
+
+        print serie
         print runtime
         print genre
         print rating
