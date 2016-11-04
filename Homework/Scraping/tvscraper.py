@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-# Name:
-# Student number:
+# Name: Lars Overwater
+# Student number: 10800077
 '''
 This script scrapes IMDB and outputs a CSV file with highest rated tv series.
 '''
@@ -11,7 +11,6 @@ from pattern.web import URL, DOM
 TARGET_URL = "http://www.imdb.com/search/title?num_votes=5000,&sort=user_rating,desc&start=1&title_type=tv_series"
 BACKUP_HTML = 'tvseries.html'
 OUTPUT_CSV = 'tvseries.csv'
-
 
 def extract_tvseries(dom):
     '''
@@ -24,43 +23,36 @@ def extract_tvseries(dom):
     - Actors/actresses (comma separated if more than one)
     - Runtime (only a number!)
     '''
+    series = []
 
-    for e in dom.by_tag("div.lister-item-content")[:10]:
+    for e in dom.by_tag("div.lister-item-content"):
 
+        row = []
         for a in e.by_tag("h3.lister-item-header"):
-            for serie in a.by_tag("a"):
-                serie = serie.content
+            for title in a.by_tag("a"):
+                row.append(title.content.encode('utf-8'))
+
+        for a in e.by_tag("div.inline-block ratings-imdb-rating"):
+            row.append(a.attributes["data-value"])
 
         for a in e.by_tag("p.text-muted"):
+            for genre in a.by_tag("span.genre"):
+                row.append(genre.content[1:].strip())
+
             for runtime in a.by_tag("span.runtime"):
                 runtime = runtime.content[:-4]
 
-            for genre in a.by_tag("span.genre"):
-                genre = genre.content
-
-        for a in e.by_tag("div.ratings-bar"):
-            for i in a.by_tag("div.inline-block ratings-imdb-rating"):
-                rating = i.attributes["data-value"]
-
+        actors = []
         for a in e.by_tag("p"):
             if ("?ref_=adv_li_st" in a.content):
                 for actor in a.by_tag("a"):
-                    actor = actor.content
-                    print actor
+                    actors.append(actor.content.encode('utf-8'))
 
-        print serie
-        print runtime
-        print genre
-        print rating
+        row.append(', '.join(actors))
+        row.append(runtime)
+        series.append(row)
 
-
-
-    # ADD YOUR CODE HERE TO EXTRACT THE ABOVE INFORMATION ABOUT THE
-    # HIGHEST RATED TV-SERIES
-    # NOTE: FOR THIS EXERCISE YOU ARE ALLOWED (BUT NOT REQUIRED) TO IGNORE
-    # UNICODE CHARACTERS AND SIMPLY LEAVE THEM OUT OF THE OUTPUT.
-
-    return []  # replace this line as well as appropriate
+    return series
 
 
 def save_csv(f, tvseries):
@@ -69,6 +61,9 @@ def save_csv(f, tvseries):
     '''
     writer = csv.writer(f)
     writer.writerow(['Title', 'Rating', 'Genre', 'Actors', 'Runtime'])
+    for row in tvseries:
+        print row
+        writer.writerow(row)
 
     # ADD SOME CODE OF YOURSELF HERE TO WRITE THE TV-SERIES TO DISK
 
@@ -89,5 +84,5 @@ if __name__ == '__main__':
     tvseries = extract_tvseries(dom)
 
     # Write the CSV file to disk (including a header)
-    with open(OUTPUT_CSV, 'wb') as output_file:
+    with open(OUTPUT_CSV,'wb') as output_file:
         save_csv(output_file, tvseries)
