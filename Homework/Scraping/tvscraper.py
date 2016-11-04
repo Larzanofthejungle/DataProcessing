@@ -25,6 +25,7 @@ def extract_tvseries(dom):
     '''
     series = []
 
+    # gets list of div tags lister-item-content
     for e in dom.by_tag("div.lister-item-content"):
 
         row = []
@@ -42,13 +43,16 @@ def extract_tvseries(dom):
             for runtime in a.by_tag("span.runtime"):
                 runtime = runtime.content[:-4]
 
+        # gets list of actors from the lister-item-content
         actors = []
         for a in e.by_tag("p"):
             if ("?ref_=adv_li_st" in a.content):
                 for actor in a.by_tag("a"):
                     actors.append(actor.content.encode('utf-8'))
 
+        # appends the actors as a string
         row.append(', '.join(actors))
+
         row.append(runtime)
         series.append(row)
 
@@ -62,10 +66,7 @@ def save_csv(f, tvseries):
     writer = csv.writer(f)
     writer.writerow(['Title', 'Rating', 'Genre', 'Actors', 'Runtime'])
     for row in tvseries:
-        print row
         writer.writerow(row)
-
-    # ADD SOME CODE OF YOURSELF HERE TO WRITE THE TV-SERIES TO DISK
 
 if __name__ == '__main__':
     # Download the HTML file
