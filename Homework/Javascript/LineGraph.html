@@ -377,6 +377,8 @@
             20151231,78
         </textarea>
 
+        <h1>Gemiddelde Temperatuur in Nederland in 2016 (De Bilt)</h1>
+
         <canvas id="plot">
 
         </canvas>
@@ -420,7 +422,6 @@
               	// This gives you two equations to solve:
               	// range_min = alpha * domain_min + beta
               	// range_max = alpha * domain_max + beta
-               	    // Implement your solution here:
                	var alpha = ((range[1] - range[0]) / (domain[1] - domain[0]));
               	var beta = range[0] - (alpha * domain[0]);
 
@@ -431,13 +432,45 @@
 
             var transform = createTransform([10, 20], [10, 20]);
  	          console.log(transform(15));
-
             var canvas = document.getElementById('plot');
+            canvas.width = 1000;
+            canvas.height = 500;
             var ctx = canvas.getContext('2d');
-
-            ctx.fillStyle = "rgb(200,0,0)";
-            ctx.strokeRect(10, 10, 55, 50);
-
+            transy = createTransform(tem, [50, 400]);
+            transx = createTransform([0,364], [50, 850]);
+            ctx.beginPath();
+            ctx.lineTo(50,0);
+            ctx.lineTo(50,400);
+            ctx.lineTo(850,400);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(transx(0), 400 - transy(data[0][1]));
+            for (var i = 0; i < data.length; i++)
+            {
+                ctx.lineTo(transx(i), 400 - transy(data[i][1]));
+            }
+            ctx.stroke();
+            for (var i = -5; i < 30; i+=5)
+            {
+                ctx.beginPath();
+                ctx.lineTo(50, 400 - transy(i));
+                ctx.lineTo(30, 400 - transy(i));
+                ctx.stroke();
+                ctx.fillText(i, 15, 400 - transy(i));
+            }
+            var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            for (var i = 0; i < 12; i++)
+            {
+                ctx.beginPath();
+                ctx.lineTo(transx(i*31), 400);
+                ctx.lineTo(transx(i*31) + 20, 420);
+                ctx.stroke();
+                ctx.fillText(months[i], transx(i*31 + 11) , 420);
+            }
+            ctx.fillText("Datum --->", 450, 450);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText("Temperatuur (graden Celsius) --->", -250, 10)
+            ctx.restore();
         </script>
 
     </body>
