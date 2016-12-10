@@ -132,3 +132,16 @@ tem.append("text")
     .attr("dy", "0.35em")
     .style("font", "10px sans-serif")
     .text(function(d) { return d.id; });
+
+
+function updateData() {
+
+    if (dataname == tem_2014) {
+      document.location = "d3lineExtended.html" + "?dataname=tem_2015";
+    }
+    else {
+      document.location = "d3lineExtended.html" + "?dataname=tem_2014";
+    }
+
+
+}

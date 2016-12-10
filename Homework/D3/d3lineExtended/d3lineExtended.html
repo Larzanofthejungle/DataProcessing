@@ -39,17 +39,21 @@
           stroke: green;
           stroke-width: 1.5px;
         }
-
-
         </style>
 
         <svg class="chart" width="960" height="500"></svg>
+        <div id="option">
+            <input name="updateButton"
+                   type="button"
+                   value="2014"
+                   onclick="updateData()" />
+        </div>
         <script src="http://d3js.org/d3.v3.js" charset="utf-8"></script>
         <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 
         <!--  d3line_data.js gekregen via convertCSV2JSON2.py  -->
         <script src="d3line_data.js"></script>
-        <script src="d3line.js"></script>
+        <script src="d3lineExtended.js"></script>
 
     </body>
 </html>

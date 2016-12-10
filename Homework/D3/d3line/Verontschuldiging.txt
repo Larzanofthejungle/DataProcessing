@@ -1,0 +1,13 @@
+Laat ik beginnen met sorry zeggen.
+Sorry.
+Afgelopen week was voor mij een beetje druk.
+Vandaar dat ik deze opdracht incompleet een dag te laat inlever.
+Al redelijk snel kreeg ik het voormekaar de drie lijnen te plotten.
+Echter de interactiviteit toevoegen, heeft me behoorlijk wat tijd gekost.
+Het op de correcte manier bereiken van data lukte me namelijk niet echt.
+Vandaar dat ik dat nu op een andere (arbitraire) manier heb geimplementeerd.
+Door tijdsnood en de toegevoegde moeilijkheid van deze implementatie is
+het me niet gelukt het derde deel af te ronden.
+Het idee was om de pagina opnieuw te laden met per keer klikken op de 
+knop onder de grafiek te wisselen tussen tem_2014 en tem_2015
+
