@@ -6,8 +6,6 @@
 import csv
 import json
 
-data = []
-
 # Author: Robin Kuiper
 # Date: 27 03 2014
 
@@ -274,7 +272,6 @@ with open('Alcohol_consumption_per_country.csv', 'rb') as csvfile:
     rawdata = csv.reader(csvfile, delimiter=',', quotechar='|')
 
     # outputs txt with formatted array of arrays
-    count = 0
     with open('alcohol.json','wb') as output_file:
         output_file.write('var alcoholdata = [\n\t')
         for row in rawdata:
@@ -284,4 +281,3 @@ with open('Alcohol_consumption_per_country.csv', 'rb') as csvfile:
                     output_file.write('{"country":"' + country_codes[i][1] +'","alcohol":' + row[1] +', "beer":' + row[4] + ', "wine":' + row[5] + ', "spirits":' + row[6] + ', "other":' + row[7] + '},\n\t')
         output_file.seek(-3, 2)
         output_file.write("\n]")
-        print count

@@ -27,6 +27,7 @@ var world = new Datamap({element: document.getElementById("container"),
         }
     },
 
+    // wanneer er op een land geklikt wordt, wordt een piechart aangemaakt, als er data voor is
     done: function(datamap, geo, data) {
             datamap.svg.selectAll('.datamaps-subunit').on('click', function(geo, data) {
               for (i = 0; i < alcoholdata.length; i++) {
@@ -39,17 +40,21 @@ var world = new Datamap({element: document.getElementById("container"),
 
 });
 
+// updates de datamap
 for (i = 0; i < alcoholmapdata.length; i++) {
   world.updateChoropleth(alcoholmapdata[i]);
 }
 
+// laat leegenda zien
 world.legend();
 
 
 function makePieChart(country_name, datapoint){
 
+    // verwijdert de oude piechart
     d3.select(".piechart").remove();
 
+    // verandert datapoint in bruikbare data voor piechart
     var data = [ 1 ];
 
     data = data.map(function(d) { return [
@@ -77,6 +82,7 @@ function makePieChart(country_name, datapoint){
 
     data = data[0];
 
+    // maakt nieuwe piechart aan
     var width = 960,
         height = 300,
         radius = Math.min(width, height - 40) / 2;
