@@ -1,0 +1,25 @@
+
+.arc text {
+  font: 10px sans-serif;
+  text-anchor: middle;
+}
+
+.arc path {
+  stroke: #fff;
+}
+
+.Beer {
+  fill: #f79400;
+}
+
+.Wine {
+  fill: #ce0a31;
+}
+
+.Spirits {
+  fill: #d7faf3;
+}
+
+.Other {
+  fill: #b9d48b;
+}
